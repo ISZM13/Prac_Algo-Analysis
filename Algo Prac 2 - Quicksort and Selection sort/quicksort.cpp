@@ -1,71 +1,81 @@
-#include<iostream>
-#include <cstdlib>
 
+#include <bits/stdc++.h>
 using namespace std;
+int count_comp;
 
-int partition(int arr[], int start, int end)
+void swap(int *a, int *b)
 {
-    int pivot = arr[start];
-
-    int count = 0;
-    
-    for(int i = start; i < end; i++)
-    {
-        if(arr[i] < pivot)
-        count++;
-    }
-
-    int pivot_index = start + count;
-    swap(arr[start], arr[pivot_index]);
-
-    int i = start;
-    int j = end;
-
-    while(i < pivot_index && j > pivot_index)
-    {
-        while(i < pivot_index)
-        {
-            i++;
-        }
-        while(j > pivot_index)
-        {
-            j--;
-        }
-    }
-    swap(arr[i++], arr[j--]);
-    
-    return pivot_index;
+    int t = *a;
+    *a = *b;
+    *b = t;
 }
 
-void quicksort(int arr[], int start, int end)
+int partition(int arr[], int low, int high)
 {
-    int p = partition(arr, start, end);
+    int pivot = arr[high]; // pivot
+    int i = (low - 1);
 
-    quicksort(arr, start , p-1);
-    quicksort(arr, p + 1, end);
+    for (int j = low; j <= high - 1; j++)
+    {
+
+        if (arr[j] < pivot)
+        {
+            i++;
+            count_comp++;
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i + 1], &arr[high]);
+    return (i + 1);
+}
+
+void quickSort(int arr[], int low, int high)
+{
+    if (low < high)
+    {
+
+        int pi = partition(arr, low, high);
+
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+void printArray(int arr[], int size)
+{
+    int i;
+    for (i = 0; i < size; i++)
+        cout << arr[i] << " ";
+    cout << endl;
 }
 
 int main()
 {
-    int start;
-
-    int arr[100000];
-    
-    cout<<"Enter number of elements: ";
+    cout << "Enter the number of elements in dataset:\t\n";
     int num;
-    cin>>num;
-
-    for(int i = 0; i < num; i++)
+    cin >> num;
+    int arr[num];
+    for (int i = 0; i < num; i++)
     {
-        arr[i] = rand()%num;
+        arr[i] = rand() % num;
     }
-
-    quicksort(arr, 0, num - 1);
-    
-    cout<<"Sorted array: ";
-    for(int i = 0; i < num; i++)
+    cout << "\nData has been enetered";
+    cout << "\n Do you want to view the dataset?";
+    cout << "\n 1 for yes || 0 for no";
+    int choice = 2;
+    while (choice != 0 && choice != 1)
     {
-        cout<<arr[i] << ' ';
+        cin >> choice;
+        if (choice != 0 && choice != 1)
+            cout << "Enter valid number";
     }
+    if (choice == 1)
+    {
+        printArray(arr, num);
+    }
+    quickSort(arr, 0, num - 1);
+    cout << "Sorted array: \n";
+    printArray(arr, num);
+    cout << "\n The number of comparisons in the sorting is : " << count_comp;
     return 0;
 }

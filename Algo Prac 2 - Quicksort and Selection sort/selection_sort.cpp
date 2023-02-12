@@ -11,11 +11,12 @@ int main()
     cout<<"Enter number: ";
     int num;
     cin>>num;
+    cout<<"\nThe array is :";
     for(int i =0; i < num; i++)
     {
         arr[i]=rand()%num;
+        cout<<arr[i]<<" ";
     }
-
     selection_sort(arr, num);
 }
 
@@ -26,7 +27,6 @@ void selection_sort(int arr[], int length)
     for(i = 0; i < length - 1; i++)
     {
         int min = i;
-
         for(int j = 0; j < length; j++)
         {
             if(arr[j] < arr[min])
@@ -36,7 +36,7 @@ void selection_sort(int arr[], int length)
             swap(arr[i], arr[min]);
         }
     }
-    cout<<"Sorted array: ";
+    cout<<"\nSorted array using Selection Sort: ";
     for(int k = 0; k < length; k++)
     {
         cout<< arr[k] << ' ';
